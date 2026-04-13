@@ -2,6 +2,12 @@
 
 Tools for publishing markdown documents with mermaid diagrams to Confluence.
 
+Install dependencies:
+```
+pip3 install -r requirements.txt
+
+```
+
 ## Scripts
 
 | Script | Purpose |
@@ -41,7 +47,12 @@ The publish script:
 - Does a section-level update: finds the `<h1>` matching `<section_heading>` and replaces that section, preserving all other sections
 - If the section doesn't exist, appends it at the end
 
-## Kiro Prompt Integration
+## Step 4 Install Kiro Prompt Integration
+
+```
+./install_kiro_prompt.sh
+```
+
 
 Once installed run the prompt
 ```
