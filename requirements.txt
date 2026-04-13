@@ -1,3 +1,2 @@
-md2conf
 mistune
 requests

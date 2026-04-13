@@ -2,10 +2,19 @@
 
 Tools for publishing markdown documents with mermaid diagrams to Confluence.
 
-Install dependencies:
+## Prerequisites
+
+- Python 3
+- Node.js / npm
+- [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli):
+  ```
+  npm install -g @mermaid-js/mermaid-cli
+  ```
+
+## Install
+
 ```
 pip3 install -r requirements.txt
-
 ```
 
 ## Scripts
