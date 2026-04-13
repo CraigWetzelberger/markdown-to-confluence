@@ -1,0 +1,6 @@
+output/
+*.pyc
+__pycache__/
+confluence_config.json
+.kiro/*
+.DS_Store
