@@ -13,6 +13,8 @@ from pathlib import Path
 import mistune
 import requests
 
+from .compat import warn_legacy_command
+
 CONFIG_FILENAME = "confluence_config.json"
 DEFAULT_CONFIG_LOCATIONS = (
     Path.cwd() / CONFIG_FILENAME,
@@ -20,8 +22,7 @@ DEFAULT_CONFIG_LOCATIONS = (
 )
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="kiro-publish-to-confluence")
+def add_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("page_id", help="Confluence page ID")
     parser.add_argument("section_heading", help="Section heading to replace or append")
     parser.add_argument(
@@ -36,6 +37,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path to the Confluence config file",
     )
+
+
+def build_parser(prog: str = "kiro-publish-to-confluence") -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog=prog)
+    add_arguments(parser)
     return parser
 
 
@@ -223,8 +229,7 @@ def publish(
     print("Published:", result["_links"]["base"] + result["_links"]["webui"])
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+def run(args: argparse.Namespace) -> int:
     config, config_path = load_config(args.config)
     session, api = make_session(config)
     check_auth(session, api, config_path)
@@ -239,6 +244,16 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Converted markdown to HTML ({len(new_html)} bytes)")
     publish(session, api, args.page_id, args.section_heading, new_html)
     return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    return run(args)
+
+
+def legacy_main(argv: list[str] | None = None) -> int:
+    warn_legacy_command("kiro-publish-to-confluence", "mermaid2conf publish")
+    return main(argv)
 
 
 if __name__ == "__main__":

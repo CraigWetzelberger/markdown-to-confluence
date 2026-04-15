@@ -90,7 +90,7 @@ wheels = [
 ]
 
 [[package]]
-name = "markdown-to-confluence"
+name = "mermaid2conf"
 version = "1"
 source = { editable = "." }
 dependencies = [

@@ -1,6 +1,7 @@
 output/
 *.pyc
 confluence_config.json
+.envrc
 .kiro/*
 # Created by https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,jetbrains+all,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,visualstudiocode,jetbrains+all,python

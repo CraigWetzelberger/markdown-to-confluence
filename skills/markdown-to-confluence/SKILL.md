@@ -58,9 +58,9 @@ Substitute all variable references with their exact values
 
 1. Process the mermaid diagram
    ```shell
-   uv run --project scripts kiro-publish-processing "$SOURCE_MD"
+   uv run --project scripts mermaid2conf process "$SOURCE_MD"
    ```
 2. Publish the document to confluence
    ```shell
-   uv run --project scripts kiro-publish-to-confluence "$PAGE_ID" "$SECTION_NAME"
+   uv run --project scripts mermaid2conf publish "$PAGE_ID" "$SECTION_NAME"
    ```

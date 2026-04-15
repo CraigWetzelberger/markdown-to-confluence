@@ -10,6 +10,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from .compat import warn_legacy_command
+
 
 def slugify(text: str) -> str:
     text = re.sub(r"[^\w\s-]", "", text.lower().strip())
@@ -69,8 +71,7 @@ def convert_markdown(input_file: Path, output_dir: Path) -> Path:
     return output_file
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="md2conf-mermaid")
+def add_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("input_file", type=Path, help="Markdown file to process")
     parser.add_argument(
         "output_dir",
@@ -79,14 +80,28 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path.cwd() / "output",
         help="Directory for generated markdown and PNG files",
     )
+
+
+def build_parser(prog: str = "md2conf-mermaid") -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog=prog)
+    add_arguments(parser)
     return parser
+
+
+def run(args: argparse.Namespace) -> int:
+    result = convert_markdown(args.input_file, args.output_dir)
+    print(f"Converted: {result}")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    result = convert_markdown(args.input_file, args.output_dir)
-    print(f"Converted: {result}")
-    return 0
+    return run(args)
+
+
+def legacy_main(argv: list[str] | None = None) -> int:
+    warn_legacy_command("md2conf-mermaid", "mermaid2conf mermaid")
+    return main(argv)
 
 
 if __name__ == "__main__":
