@@ -1,5 +1,5 @@
 ---
-name: markdown-to-confluence
+name: mermaid2conf
 description: Use this skill to publish markdown documents with mermaid diagrams to directly Confluence.
 compatibility: Requires Python 3.12+, uv, and mermaid-cli
 ---
