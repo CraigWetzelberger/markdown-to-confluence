@@ -35,6 +35,8 @@ uv run --project . kiro-publish-processing docs/example.md
 
 ## Configure Confluence credentials
 
+Visit [https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens) to create api-token
+
 Create `confluence_config.json` in the current directory, or pass an explicit path with `--config`:
 
 ```
