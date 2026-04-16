@@ -12,6 +12,7 @@ repos:
       - id: trailing-whitespace
         exclude: \.md$
       - id: end-of-file-fixer
+        exclude: \.md$
   - repo: https://github.com/hukkin/mdformat
     rev: 1.0.0
     hooks:

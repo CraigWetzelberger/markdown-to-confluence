@@ -38,7 +38,7 @@ compatibility: Requires Python 3.12+, uv, and mermaid-cli
    [ -f ~/.config/markdown-to-confluence/confluence_config.json ] && echo "Exists" || echo "Does not exist" 
    ```
 
-   If Confluence Configuration file does not exist, direct user to visit [Configure Confluence Credentials](https://github.com/bholland-bh/markdown-to-confluence#configure-confluence-credentials) and terminate
+   If Confluence Configuration file does not exist, direct user to visit [Configure Confluence Credentials](https://github.com/CraigWetzelberger/markdown-to-confluence#configure-confluence-credentials) and terminate
 
 ## Inputs
 

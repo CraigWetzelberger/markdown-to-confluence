@@ -5,7 +5,7 @@ Tools for publishing markdown documents with mermaid diagrams to Confluence.
 ## Skill
 
 ```shell
-npx skills add bholland-bh/mermaid2conf --global --skill '*' --agent kiro-cli --agent codex
+npx skills add CraigWetzelberger/mermaid2conf --global --skill '*' --agent kiro-cli --agent codex
 ```
 
 ## Prerequisites
@@ -18,6 +18,32 @@ npx skills add bholland-bh/mermaid2conf --global --skill '*' --agent kiro-cli --
   ```
   npm install -g @mermaid-js/mermaid-cli
   ```
+
+### dev dependencies
+
+```shell
+brew install pipx yamllint
+pipx install mdformat yamlfixer-opt-nc
+pipx inject mdformat mdformat-gfm mdformat-frontmatter mdformat-footnote mdformat-gfm-alerts
+```
+
+#### Pre-Commit
+
+This repo uses `pre-commit` to apply a small set of formatting and hygiene checks before commits:
+
+- `ruff-check --fix`: lint Python code and apply safe autofixes where possible
+- `ruff-format`: format Python source files
+- `trailing-whitespace`: remove trailing whitespace from non-Markdown files
+- `end-of-file-fixer`: ensure non-Markdown files end with a newline
+- `mdformat`: normalize Markdown formatting, including frontmatter, GFM, footnotes, and alerts
+- `uv-lock`: keep `uv.lock` in sync with `pyproject.toml`
+
+Common commands:
+
+```shell
+pre-commit install
+pre-commit run -a
+```
 
 ## Install
 
@@ -53,7 +79,7 @@ One-time PyPI setup:
 
 1. Create the `mermaid2conf` project on PyPI, or configure a pending publisher that is allowed to create it.
 2. In PyPI, add a Trusted Publisher for this GitHub repo and workflow:
-   - owner/repo: `bholland-bh/markdown-to-confluence`
+   - owner/repo: `CraigWetzelberger/markdown-to-confluence`
    - workflow: `publish.yml`
    - environment: `pypi`
 
