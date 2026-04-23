@@ -17,7 +17,7 @@ compatibility: Requires Python 3.12+, uv, and mermaid-cli
    If `uv` is not installed prompt for approval to install `uv`
 
    ```shell
-     curl -LsSf https://astral.sh/uv/install.sh | sh
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 2. Confirm `mermaid-cli` is installed
@@ -29,7 +29,7 @@ compatibility: Requires Python 3.12+, uv, and mermaid-cli
    If `mermaid-cli` is not installed prompt for approval to install `uv`
 
    ```shell
-     npm install -g @mermaid-js/mermaid-cli
+   npm install -g @mermaid-js/mermaid-cli
    ```
 
 3. Confirm confluence configuration exists
@@ -42,7 +42,8 @@ compatibility: Requires Python 3.12+, uv, and mermaid-cli
 
 ## Inputs
 
-1. Ask the user for the path to the markdown file. Wait for their response before proceeding. This value will be referred to by $SOURCE_MD
+1. The first parameter in the skill invocation is a path to markdown file. This value will be referred to by $SOURCE_MD
+   - If the skill is invoked without input, ask the user for the path to the markdown file. Wait for their response before proceeding.
 2. Read the $SOURCE_MD markdown file and check for YAML frontmatter with:
 
 - `confluence_url` ($CONFLUENCE_URL)
@@ -56,11 +57,13 @@ compatibility: Requires Python 3.12+, uv, and mermaid-cli
 
 Substitute all variable references with their exact values
 
+Resolve `./scripts` relative to this skill directory.
+
 1. Process the mermaid diagram
    ```shell
-   uvx mermaid2conf process "$SOURCE_MD"
+   uv tool run --from ./scripts mermaid2conf process "$SOURCE_MD"
    ```
 2. Publish the document to confluence
    ```shell
-   uvx mermaid2conf publish "$PAGE_ID" "$SECTION_NAME"
+   uv tool run --from ./scripts mermaid2conf publish "$PAGE_ID" "$SECTION_NAME"
    ```
