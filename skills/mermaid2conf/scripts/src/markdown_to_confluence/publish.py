@@ -200,9 +200,10 @@ def merge_section(current: str, section: str, new_html: str) -> str:
             else len(current)
         )
         return current[:start] + new_html + current[end:]
-    if positions:
-        return current + f"<h1>{section}</h1>{new_html}"
-    return current + new_html
+    sys.exit(
+        f"ERROR: Section heading '{section}' not found on the page.\n"
+        "Add the heading to the page where you want this section, then try again."
+    )
 
 
 def publish(
@@ -229,6 +230,28 @@ def publish(
     print("Published:", result["_links"]["base"] + result["_links"]["webui"])
 
 
+def _frontmatter_section(md_path: Path) -> str | None:
+    """Return the confluence_section value from YAML frontmatter, or None."""
+    fm_match = re.match(r"^---\n(.*?\n)---\n", md_path.read_text(), re.DOTALL)
+    if not fm_match:
+        return None
+    for line in fm_match.group(1).splitlines():
+        if line.startswith("confluence_section:"):
+            return line.split(":", 1)[1].strip()
+    return None
+
+
+def _find_md_for_section(markdown_files: list[Path], section: str) -> Path:
+    """Pick the markdown file whose confluence_section matches, or the first file."""
+    if len(markdown_files) == 1:
+        return markdown_files[0]
+    for candidate in markdown_files:
+        val = _frontmatter_section(candidate)
+        if val and val.lower() == section.lower():
+            return candidate
+    return markdown_files[0]
+
+
 def run(args: argparse.Namespace) -> int:
     config, config_path = load_config(args.config)
     session, api = make_session(config)
@@ -239,8 +262,10 @@ def run(args: argparse.Namespace) -> int:
     if not markdown_files:
         sys.exit(f"ERROR: No .md file in {output_dir}")
 
+    md_path = _find_md_for_section(markdown_files, args.section_heading)
+
     upload_attachments(session, api, args.page_id, output_dir)
-    new_html = md_to_confluence_html(markdown_files[0])
+    new_html = md_to_confluence_html(md_path)
     print(f"Converted markdown to HTML ({len(new_html)} bytes)")
     publish(session, api, args.page_id, args.section_heading, new_html)
     return 0
